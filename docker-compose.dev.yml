@@ -42,27 +42,24 @@ services:
     container_name: administration-migration-dev
     networks:
       - focuz-dev
-
     command:
       - "-url=jdbc:mysql://focuz-db-dev:3306/administration?allowPublicKeyRetrieval=true&useSSL=false&serverTimezone=Asia/Ho_Chi_Minh"
       - "-user=root"
       - "-password=123"
       - "migrate"
     volumes:
-      - ./migration/administration/administration-migration/flyway/mysql:/flyway/sql
+      - ./migration/administration-migration/flyway/mysql:/flyway/sql
     depends_on:
       focuz-db-dev:
           condition: service_healthy
   discovery-dev:
     build:
-      context: ./platform-services/discovery-service/discovery-service/.
+      context: ./platform-services/discovery-service/.
     container_name: discovery-dev
     networks:
       - focuz-dev
     ports:
       - "8761:8761"
-
-
 
 volumes:
   wazado-mysql:

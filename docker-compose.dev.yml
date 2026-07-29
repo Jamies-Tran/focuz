@@ -1,0 +1,63 @@
+services:
+  focuz-db-dev:
+    image: mysql:latest
+    container_name: focuz-db-dev
+    networks:
+      - focuz-dev
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./database/mysql/dev/data:/var/lib/mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: 123
+      MYSQL_DATABASE: administration
+      TZ: Asia/Ho_Chi_Minh
+    healthcheck:
+      test: [ "CMD", "mysqladmin", "ping", "-h", "localhost", "-uroot", "-p123" ]
+      interval: 5s
+      retries: 3
+      timeout: 10s
+
+  focuz-cache-dev:
+    image: redis:latest
+    container_name: focuz-cache-dev
+    networks:
+      - focuz-dev
+    volumes:
+      - ./cache/redis/dev/data:/data
+      - ./cache/redis/redis.conf:/usr/local/etc/redis/redis.conf
+    command: redis-server /usr/local/etc/redis/redis.conf
+    restart: always
+    ports:
+      - "6379:6379"
+    healthcheck:
+      test: [ "CMD", "redis-cli", "ping" ]
+      interval: 5s
+      retries: 3
+      timeout: 10s
+
+  administration-flyway-dev:
+    image: flyway/flyway:latest
+    container_name: administration-migration-dev
+    networks:
+      - focuz-dev
+
+    command:
+      - "-url=jdbc:mysql://focuz-db-dev:3306/administration?allowPublicKeyRetrieval=true&useSSL=false&serverTimezone=Asia/Ho_Chi_Minh"
+      - "-user=root"
+      - "-password=123"
+      - "migrate"
+    volumes:
+      - ./migration/administration/administration-migration/flyway/mysql:/flyway/sql
+    depends_on:
+      focuz-db-dev:
+          condition: service_healthy
+
+
+volumes:
+  wazado-mysql:
+
+networks:
+  focuz-dev:
+      external: true

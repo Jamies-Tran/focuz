@@ -53,6 +53,15 @@ services:
     depends_on:
       focuz-db-dev:
           condition: service_healthy
+  discovery-dev:
+    build:
+      context: ./platform-services/discovery-service/discovery-service/.
+    container_name: discovery-dev
+    networks:
+      - focuz-dev
+    ports:
+      - "8761:8761"
+
 
 
 volumes:

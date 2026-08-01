@@ -1,0 +1,18 @@
+spring:
+  application:
+    name: administration-service
+  datasource:
+    url: jdbc:mysql://localhost:3306/administration
+    username: root
+    password: 123
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+auth:
+  permitAll: /**
+  secretKey: f4b9c18d7e2a6f9035c8d1ab4e7f29c6a18d5b3f9e6c2a74d0f1b8e95c3a7d62
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka
+

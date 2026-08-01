@@ -7,8 +7,7 @@ CREATE TABLE user_infos(
     mail VARCHAR(100) DEFAULT NULL,
     address VARCHAR(100) DEFAULT NULL,
     dob DATE DEFAULT NULL,
-    intents_search VARCHAR(300) DEFAULT NULL,
-    chars_search VARCHAR(300) DEFAULT NULL,
+    search VARCHAR(512) DEFAULT NULL,
     created_by VARCHAR(100) DEFAULT NULL,
     updated_by VARCHAR(100) DEFAULT NULL,
     created_at DATETIME DEFAULT NULL,
@@ -16,4 +15,3 @@ CREATE TABLE user_infos(
 );
 
 CREATE UNIQUE INDEX idx_user_id ON user_infos (user_id);
-CREATE INDEX idx_filter ON user_infos(intents_search, chars_search);

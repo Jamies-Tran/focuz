@@ -11,9 +11,11 @@ import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.AuthenticationEntryPoint;
+import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.access.AccessDeniedHandler;
 
 @AutoConfiguration
@@ -45,13 +47,14 @@ public class AuthAutoConfiguration {
 
     @Bean
     @ConditionalOnMissingBean
-    public SecurityConfiguration securityConfiguration(
+    public SecurityFilterChain securityConfiguration(
             JwtAuthenticationFilter filter,
             AccessDeniedHandler accessDeniedHandler,
             AuthenticationEntryPoint entryPoint,
+            HttpSecurity http,
             AuthProperties properties
-    ) {
-        return new SecurityConfiguration(filter, accessDeniedHandler, entryPoint, properties);
+    ) throws Exception {
+        return new SecurityConfiguration(filter, accessDeniedHandler, entryPoint, properties).securityFilterChain(http);
     }
 
     @Bean

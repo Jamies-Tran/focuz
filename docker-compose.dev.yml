@@ -52,6 +52,7 @@ services:
     depends_on:
       focuz-db-dev:
           condition: service_healthy
+
   discovery-dev:
     build:
       context: ./platform-services/discovery-service/.
@@ -60,6 +61,37 @@ services:
       - focuz-dev
     ports:
       - "8761:8761"
+
+  gateway-dev:
+    build:
+      context: ./platform-services/gateway/.
+    container_name: gateway-dev
+    networks:
+      - focuz-dev
+    ports:
+      - "8082:8082"
+    environment:
+      SPRING_PROFILES_ACTIVE: dev
+    depends_on:
+      - discovery-dev
+
+  administration-dev:
+    build:
+      context: ./business-services/administration-service/.
+    container_name: administration-dev
+    networks:
+      - focuz-dev
+    ports:
+      - "8081:8081"
+    environment:
+      SPRING_PROFILES_ACTIVE: dev
+    depends_on:
+      focuz-db-dev:
+        condition: service_healthy
+      focuz-cache-dev:
+        condition: service_healthy
+      discovery-dev:
+        condition: service_started
 
 volumes:
   wazado-mysql:

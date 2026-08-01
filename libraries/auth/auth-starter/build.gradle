@@ -30,6 +30,8 @@ group = projectGroupId
 version = buildVersion
 description = projectArtifactId
 
+print("buildVersion:${buildVersion}\ngroup:${projectGroupId}\nartifact:${projectArtifactId}")
+
 java {
     toolchain {
         languageVersion = JavaLanguageVersion.of(21)

@@ -9,8 +9,8 @@ import lombok.experimental.FieldDefaults;
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public enum EUserStatus {
-    ACTIVE("ACTIVE", "Kích hoạt"),
-    INACTIVE("INACTIVE", "Vô hiệu hoá");
+    ACTIVE("ACTIVE", "Hoạt động"),
+    INACTIVE("INACTIVE", "Tạm khoá");
 
     String code;
     String name;

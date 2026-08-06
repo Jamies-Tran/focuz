@@ -15,6 +15,7 @@ import java.util.Optional;
 public interface JpaPermissionRepository extends JpaRepository<PermissionEntity, Long> {
     Optional<PermissionEntity> findByPermissionCode(String permissionCode);
     List<PermissionEntity> findAllByPermissionCodeIn(List<String> permissionCodes);
+    List<PermissionEntity> findAllByPermissionIdIn(List<Long> permissionIds);
     Boolean existsAllByPermissionCodeIn(List<String> permissionCodes);
     @Query("""
         SELECT p

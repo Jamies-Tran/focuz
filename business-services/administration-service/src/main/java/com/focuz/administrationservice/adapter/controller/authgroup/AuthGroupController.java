@@ -2,6 +2,7 @@ package com.focuz.administrationservice.adapter.controller.authgroup;
 
 import com.focuz.administrationservice.adapter.api.authgroup.AuthGroupApi;
 import com.focuz.administrationservice.application.dto.request.authgroup.AuthGroupRequest;
+import com.focuz.administrationservice.application.dto.request.permission.PermissionRequest;
 import com.focuz.administrationservice.application.dto.response.authgroup.AuthGroupResponse;
 import com.focuz.administrationservice.application.mapper.request.authgroup.AuthGroupRequestMapper;
 import com.focuz.administrationservice.application.mapper.response.authgroup.AuthGroupResponseMapper;
@@ -69,6 +70,12 @@ public class AuthGroupController implements AuthGroupApi {
         return ValueResponse.success(responseMapper
                 .toDomain(authGroupService.updateByCode(authGroupCode,
                         requestMapper.toDto(request))));
+    }
+
+    @Override
+    public ValueResponse<?> addPermissionList(String authGroupCode, PermissionRequest.PermissionCodeListRequest request) {
+        authGroupService.addPermissionList(authGroupCode, request.permissionCodeList());
+        return ValueResponse.success(authGroupCode);
     }
 
     @Override

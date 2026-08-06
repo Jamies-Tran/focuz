@@ -13,6 +13,8 @@ public interface PermissionRepository {
     List<Permission> saveAll(List<Permission> permissions);
     Optional<Permission> findByPermissionCode(String permissionCode);
     Page<Permission> findAll(PermissionCriteria criteria, PageRequest pageRequest);
+    List<Permission> findAllByPermissionCodeIn(List<String> permissionCodes);
+    List<Permission> findAllByPermissionIdIn(List<Long> permissionIds);
     Optional<Permission> updateByPermissionCode(String permissionCode, Permission permission);
     Optional<Permission> updateByPermissionCode(String permissionCode, EPermissionStatus status);
     void deleteAllByPermissionCodeIn(List<String> permissionCodes);

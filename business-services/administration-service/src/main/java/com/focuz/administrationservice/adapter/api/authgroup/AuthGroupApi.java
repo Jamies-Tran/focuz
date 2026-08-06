@@ -1,6 +1,7 @@
 package com.focuz.administrationservice.adapter.api.authgroup;
 
 import com.focuz.administrationservice.application.dto.request.authgroup.AuthGroupRequest;
+import com.focuz.administrationservice.application.dto.request.permission.PermissionRequest;
 import com.focuz.administrationservice.application.dto.response.authgroup.AuthGroupResponse;
 import com.focuz.corestarter.domain.entity.template.response.ListResponse;
 import com.focuz.corestarter.domain.entity.template.response.PageResponse;
@@ -36,6 +37,9 @@ public interface AuthGroupApi {
 
     @PutMapping("/{authGroupCode}")
     ValueResponse<AuthGroupResponse> updateByCode(@PathVariable String authGroupCode, @RequestBody @Validated AuthGroupRequest request);
+
+    @PutMapping("/{authGroupCode}/permissions")
+    ValueResponse<?> addPermissionList(@PathVariable String authGroupCode, @RequestBody @Validated PermissionRequest.PermissionCodeListRequest request);
 
     @PatchMapping("/{authGroupCode}/active")
     ValueResponse<AuthGroupResponse> activeByCode(@PathVariable String authGroupCode);

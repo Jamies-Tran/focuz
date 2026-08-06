@@ -43,6 +43,16 @@ public class JpaPermissionPersistenceAdapter implements PermissionRepository {
     }
 
     @Override
+    public List<Permission> findAllByPermissionCodeIn(List<String> permissionCodes) {
+        return mapper.toDomain(repository.findAllByPermissionCodeIn(permissionCodes));
+    }
+
+    @Override
+    public List<Permission> findAllByPermissionIdIn(List<Long> permissionIds) {
+        return mapper.toDomain(repository.findAllByPermissionIdIn(permissionIds));
+    }
+
+    @Override
     public Optional<Permission> updateByPermissionCode(String permissionCode, Permission permission) {
         return repository.findByPermissionCode(permissionCode)
                 .map(p -> {

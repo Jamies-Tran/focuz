@@ -11,6 +11,8 @@ public interface PermissionService {
     List<Permission> createList(List<Permission> permissions);
     Optional<Permission> getDetailByCode(String permissionCode);
     Page<Permission> getPage(PermissionCriteria criteria);
+    List<Permission> getListByPermissionCodeIn(List<String> permissionCodes);
+    List<Permission> getListByPermissionIdIn(List<Long> permissionIds);
     Permission updateByCode(String permissionCode, Permission permission);
     Permission activeByCode(String permissionCode);
     Permission inactiveByCode(String permissionCode);

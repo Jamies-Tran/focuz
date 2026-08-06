@@ -47,6 +47,18 @@ public class PermissionUseCase implements PermissionService {
     }
 
     @Override
+    @Transactional(readOnly = true)
+    public List<Permission> getListByPermissionCodeIn(List<String> permissionCodes) {
+        return repository.findAllByPermissionCodeIn(permissionCodes);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<Permission> getListByPermissionIdIn(List<Long> permissionIds) {
+        return repository.findAllByPermissionIdIn(permissionIds);
+    }
+
+    @Override
     @Transactional
     public Permission updateByCode(String permissionCode, Permission permission) {
         validateUpdateByCode(permissionCode, permission);

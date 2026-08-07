@@ -8,7 +8,9 @@ import java.util.List;
 public record GroupPermission(
         Long groupPermissionId,
         Long authGroupId,
-        Long permissionId
+        Long permissionId,
+        String permissionCode,
+        String permissionName
 ) {
     public static List<GroupPermission> of(Long authGroupId, List<Long> permissionIds) {
         return permissionIds.stream()

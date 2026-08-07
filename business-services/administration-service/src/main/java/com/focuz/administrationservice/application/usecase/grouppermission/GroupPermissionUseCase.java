@@ -31,21 +31,12 @@ public class GroupPermissionUseCase implements GroupPermissionService {
     }
 
     @Override
-    public List<Permission> getPermissionListByGroupId(Long groupId) {
-        List<Long> permissionIds = repository.findAllByAuthGroupId(groupId)
-                .stream()
-                .map(GroupPermission::groupPermissionId)
-                .toList();
-        return permissionService.getListByPermissionIdIn(permissionIds);
+    public List<GroupPermission> getGroupPermissionListByGroupId(Long groupId) {
+        return repository.findAllByAuthGroupId(groupId);
     }
 
     @Override
-    public List<GroupPermission> getPermissionListByGroupIdIn(List<Long> groupIds) {
-//        List<Long> permissionIds = repository.findAllByAuthGroupIdIn(groupIds)
-//                .stream()
-//                .map(GroupPermission::groupPermissionId)
-//                .toList();
-//        return permissionService.getListByPermissionIdIn(permissionIds);
-        return List.of();
+    public List<GroupPermission> getGroupPermissionListByGroupIdIn(List<Long> groupIds) {
+        return repository.findAllByAuthGroupIdIn(groupIds);
     }
 }

@@ -4,6 +4,7 @@ import com.focuz.administrationservice.domain.constant.enums.authgroup.EAuthGrou
 import com.focuz.administrationservice.domain.constant.enums.error.EAppError;
 import com.focuz.administrationservice.domain.entity.authgroup.AuthGroup;
 import com.focuz.administrationservice.domain.entity.authgroup.AuthGroupCriteria;
+import com.focuz.administrationservice.domain.entity.grouppermission.GroupPermission;
 import com.focuz.administrationservice.domain.entity.permission.Permission;
 import com.focuz.administrationservice.domain.repository.authgroup.AuthGroupRepository;
 import com.focuz.administrationservice.domain.service.authgroup.AuthGroupService;
@@ -40,8 +41,11 @@ public class AuthGroupUseCase implements AuthGroupService {
     public Optional<AuthGroup> getDetailByCode(String authGroupCode) {
         return repository.findByAuthGroupCode(authGroupCode)
                 .map(authGroup -> authGroup
-                        .withPermissions(groupPermissionService
-                                .getPermissionListByGroupId(authGroup.authGroupId())));
+                        .withPermissions(
+                                Permission
+                                        .of(groupPermissionService
+                                                .getGroupPermissionListByGroupId(authGroup.authGroupId())))
+                );
     }
 
     @Override
@@ -49,10 +53,11 @@ public class AuthGroupUseCase implements AuthGroupService {
     public Page<AuthGroup> getPage(AuthGroupCriteria criteria) {
         Page<AuthGroup> page = repository.findAll(criteria, criteria.pageRequest());
         List<Long> authGroupIds = page.map(AuthGroup::authGroupId).toList();
-//        Map<Long, List<Permission>> permissions = groupPermissionService.getPermissionListByGroupIdIn(authGroupIds)
-//                .stream()
-//                .collect(Collectors.groupingBy())
-        return repository.findAll(criteria, criteria.pageRequest());
+        Map<Long, List<Permission>> permissions = groupPermissionService.getGroupPermissionListByGroupIdIn(authGroupIds)
+                .stream()
+                .collect(Collectors
+                        .groupingBy(GroupPermission::authGroupId, Collectors.mapping(Permission::of, Collectors.toList())));
+        return page.map(authGroup -> authGroup.withPermissions(permissions.getOrDefault(authGroup.authGroupId(), List.of())));
     }
 
     @Override

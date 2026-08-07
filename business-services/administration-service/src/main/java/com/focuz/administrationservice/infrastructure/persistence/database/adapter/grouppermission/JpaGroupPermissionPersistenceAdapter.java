@@ -2,6 +2,7 @@ package com.focuz.administrationservice.infrastructure.persistence.database.adap
 
 import com.focuz.administrationservice.domain.entity.grouppermission.GroupPermission;
 import com.focuz.administrationservice.domain.repository.grouppermission.GroupPermissionRepository;
+import com.focuz.administrationservice.infrastructure.persistence.database.mapper.grouppermission.GroupPermissionDaoMapper;
 import com.focuz.administrationservice.infrastructure.persistence.database.mapper.grouppermission.GroupPermissionEntityMapper;
 import com.focuz.administrationservice.infrastructure.persistence.database.repository.grouppermission.JpaGroupPermissionRepository;
 import lombok.AccessLevel;
@@ -18,6 +19,7 @@ import java.util.Optional;
 public class JpaGroupPermissionPersistenceAdapter implements GroupPermissionRepository {
     JpaGroupPermissionRepository repository;
     GroupPermissionEntityMapper mapper;
+    GroupPermissionDaoMapper daoMapper;
 
     @Override
     public List<GroupPermission> saveAll(List<GroupPermission> groupPermissions) {
@@ -26,11 +28,11 @@ public class JpaGroupPermissionPersistenceAdapter implements GroupPermissionRepo
 
     @Override
     public List<GroupPermission> findAllByAuthGroupId(Long groupId) {
-        return mapper.toDomain(repository.findAllByAuthGroupId(groupId));
+        return daoMapper.toDomain(repository.findAllByAuthGroupId(groupId));
     }
 
     @Override
     public List<GroupPermission> findAllByAuthGroupIdIn(List<Long> groupIds) {
-        return mapper.toDomain(repository.findAllByAuthGroupIdIn(groupIds));
+        return daoMapper.toDomain(repository.findAllByAuthGroupIdIn(groupIds));
     }
 }

@@ -1,6 +1,7 @@
 package com.focuz.administrationservice.domain.entity.authgroup;
 
 import com.focuz.administrationservice.domain.entity.permission.Permission;
+import com.focuz.administrationservice.domain.entity.user.User;
 import lombok.Builder;
 import lombok.With;
 
@@ -13,6 +14,7 @@ public record AuthGroup(
         String authGroupCode,
         String authGroupName,
         @With List<Permission> permissions,
+        @With List<User> users,
         @With String statusCode,
         @With String statusName,
         String createdBy,

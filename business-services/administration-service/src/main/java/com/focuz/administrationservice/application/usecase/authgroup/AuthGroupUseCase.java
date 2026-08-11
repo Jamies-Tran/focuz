@@ -9,6 +9,7 @@ import com.focuz.administrationservice.domain.entity.permission.Permission;
 import com.focuz.administrationservice.domain.repository.authgroup.AuthGroupRepository;
 import com.focuz.administrationservice.domain.service.authgroup.AuthGroupService;
 import com.focuz.administrationservice.domain.service.grouppermission.GroupPermissionService;
+import com.focuz.administrationservice.domain.service.usergroup.UserGroupService;
 import com.focuz.corestarter.domain.entity.exception.ApplicationException;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -28,6 +29,7 @@ import java.util.stream.Collectors;
 public class AuthGroupUseCase implements AuthGroupService {
     AuthGroupRepository repository;
     GroupPermissionService groupPermissionService;
+    UserGroupService userGroupService;
 
     @Override
     @Transactional
@@ -39,25 +41,13 @@ public class AuthGroupUseCase implements AuthGroupService {
     @Override
     @Transactional(readOnly = true)
     public Optional<AuthGroup> getDetailByCode(String authGroupCode) {
-        return repository.findByAuthGroupCode(authGroupCode)
-                .map(authGroup -> authGroup
-                        .withPermissions(
-                                Permission
-                                        .of(groupPermissionService
-                                                .getGroupPermissionListByGroupId(authGroup.authGroupId())))
-                );
+        return repository.findByAuthGroupCode(authGroupCode);
     }
 
     @Override
     @Transactional(readOnly = true)
     public Page<AuthGroup> getPage(AuthGroupCriteria criteria) {
-        Page<AuthGroup> page = repository.findAll(criteria, criteria.pageRequest());
-        List<Long> authGroupIds = page.map(AuthGroup::authGroupId).toList();
-        Map<Long, List<Permission>> permissions = groupPermissionService.getGroupPermissionListByGroupIdIn(authGroupIds)
-                .stream()
-                .collect(Collectors
-                        .groupingBy(GroupPermission::authGroupId, Collectors.mapping(Permission::of, Collectors.toList())));
-        return page.map(authGroup -> authGroup.withPermissions(permissions.getOrDefault(authGroup.authGroupId(), List.of())));
+        return  repository.findAll(criteria, criteria.pageRequest());
     }
 
     @Override
@@ -95,6 +85,15 @@ public class AuthGroupUseCase implements AuthGroupService {
                 .map(AuthGroup::authGroupId)
                 .orElseThrow(() -> new ApplicationException(EAppError.AUTH_GROUP_NOT_FOUND, HttpStatus.NOT_FOUND));
         groupPermissionService.createList(authGroupId, permissionCodes);
+    }
+
+    @Override
+    @Transactional
+    public void addUserList(String authGroupCode, List<Long> userIds) {
+        Long authGroupId =  repository.findByAuthGroupCode(authGroupCode)
+                .map(AuthGroup::authGroupId)
+                .orElseThrow(() -> new ApplicationException(EAppError.AUTH_GROUP_NOT_FOUND, HttpStatus.NOT_FOUND));
+        userGroupService.createList(authGroupId, userIds);
     }
 
     private void validateCreateList(List<AuthGroup> authGroups) {

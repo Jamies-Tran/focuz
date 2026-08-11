@@ -1,6 +1,7 @@
 package com.focuz.administrationservice.application.usecase.grouppermission;
 
 import com.focuz.administrationservice.domain.entity.grouppermission.GroupPermission;
+import com.focuz.administrationservice.domain.entity.grouppermission.GroupPermissionCriteria;
 import com.focuz.administrationservice.domain.entity.permission.Permission;
 import com.focuz.administrationservice.domain.repository.grouppermission.GroupPermissionRepository;
 import com.focuz.administrationservice.domain.service.grouppermission.GroupPermissionService;
@@ -8,6 +9,8 @@ import com.focuz.administrationservice.domain.service.permission.PermissionServi
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -31,12 +34,8 @@ public class GroupPermissionUseCase implements GroupPermissionService {
     }
 
     @Override
-    public List<GroupPermission> getGroupPermissionListByGroupId(Long groupId) {
-        return repository.findAllByAuthGroupId(groupId);
-    }
-
-    @Override
-    public List<GroupPermission> getGroupPermissionListByGroupIdIn(List<Long> groupIds) {
-        return repository.findAllByAuthGroupIdIn(groupIds);
+    @Transactional(readOnly = true)
+    public Page<GroupPermission> getPagePermissions(GroupPermissionCriteria criteria) {
+        return repository.findAll(criteria, criteria.pageRequest());
     }
 }

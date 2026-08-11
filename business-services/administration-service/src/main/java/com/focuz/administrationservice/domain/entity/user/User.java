@@ -13,6 +13,7 @@ import java.util.Optional;
 public record User(
         Long userId,
         String username,
+        String avatar,
         @With String password,
         @With UserInfo userInfo,
         @With String statusCode,

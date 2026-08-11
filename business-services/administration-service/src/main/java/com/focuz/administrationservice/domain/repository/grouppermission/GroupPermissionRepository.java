@@ -1,11 +1,13 @@
 package com.focuz.administrationservice.domain.repository.grouppermission;
 
 import com.focuz.administrationservice.domain.entity.grouppermission.GroupPermission;
+import com.focuz.administrationservice.domain.entity.grouppermission.GroupPermissionCriteria;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 
 import java.util.List;
 
 public interface GroupPermissionRepository {
     List<GroupPermission> saveAll(List<GroupPermission> groupPermissions);
-    List<GroupPermission> findAllByAuthGroupId(Long groupId);
-    List<GroupPermission> findAllByAuthGroupIdIn(List<Long> groupIds);
+    Page<GroupPermission> findAll(GroupPermissionCriteria criteria, PageRequest pageRequest);
 }

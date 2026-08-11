@@ -1,0 +1,1 @@
+ALTER TABLE user_group RENAME COLUMN auth_group_id to group_id;

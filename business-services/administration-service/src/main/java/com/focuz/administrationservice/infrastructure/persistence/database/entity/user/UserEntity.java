@@ -20,6 +20,7 @@ public class UserEntity extends BaseAuditorEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long userId;
     String username;
+    String avatar;
     String password;
     String statusCode;
     String statusName;

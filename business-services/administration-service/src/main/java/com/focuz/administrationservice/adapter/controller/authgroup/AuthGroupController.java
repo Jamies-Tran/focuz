@@ -3,12 +3,21 @@ package com.focuz.administrationservice.adapter.controller.authgroup;
 import com.focuz.administrationservice.adapter.api.authgroup.AuthGroupApi;
 import com.focuz.administrationservice.application.dto.request.authgroup.AuthGroupRequest;
 import com.focuz.administrationservice.application.dto.request.permission.PermissionRequest;
+import com.focuz.administrationservice.application.dto.request.user.UserRequest;
 import com.focuz.administrationservice.application.dto.response.authgroup.AuthGroupResponse;
+import com.focuz.administrationservice.application.dto.response.grouppermission.GroupPermissionResponse;
+import com.focuz.administrationservice.application.dto.response.usergroup.UserGroupResponse;
 import com.focuz.administrationservice.application.mapper.request.authgroup.AuthGroupRequestMapper;
 import com.focuz.administrationservice.application.mapper.response.authgroup.AuthGroupResponseMapper;
+import com.focuz.administrationservice.application.mapper.response.grouppermission.GroupPermissionResponseMapper;
+import com.focuz.administrationservice.application.mapper.response.usergroup.UserGroupResponseMapper;
 import com.focuz.administrationservice.domain.constant.enums.error.EAppError;
 import com.focuz.administrationservice.domain.entity.authgroup.AuthGroupCriteria;
+import com.focuz.administrationservice.domain.entity.grouppermission.GroupPermissionCriteria;
+import com.focuz.administrationservice.domain.entity.usergroup.UserGroupCriteria;
 import com.focuz.administrationservice.domain.service.authgroup.AuthGroupService;
+import com.focuz.administrationservice.domain.service.grouppermission.GroupPermissionService;
+import com.focuz.administrationservice.domain.service.usergroup.UserGroupService;
 import com.focuz.corestarter.domain.entity.exception.ApplicationException;
 import com.focuz.corestarter.domain.entity.template.response.ListResponse;
 import com.focuz.corestarter.domain.entity.template.response.PageResponse;
@@ -27,8 +36,12 @@ import java.util.List;
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class AuthGroupController implements AuthGroupApi {
     AuthGroupService authGroupService;
+    GroupPermissionService groupPermissionService;
+    UserGroupService userGroupService;
     AuthGroupRequestMapper requestMapper;
     AuthGroupResponseMapper responseMapper;
+    GroupPermissionResponseMapper groupPermissionResponseMapper;
+    UserGroupResponseMapper userGroupResponseMapper;
 
     @Override
     public ListResponse<AuthGroupResponse> createList(AuthGroupRequest.AuthGroupListRequest request) {
@@ -66,6 +79,44 @@ public class AuthGroupController implements AuthGroupApi {
     }
 
     @Override
+    public PageResponse<GroupPermissionResponse> getPagePermission(
+            Long authGroupId,
+            String search,
+            List<String> permissionCodes,
+            String sorter,
+            Integer current,
+            Integer pageSize
+    ) {
+        GroupPermissionCriteria criteria = GroupPermissionCriteria.builder()
+                .authGroupId(authGroupId)
+                .search(search)
+                .permissionCodes(permissionCodes)
+                .sorter(sorter)
+                .current(current)
+                .pageSize(pageSize)
+                .build();
+        return PageResponse.success(groupPermissionService.getPagePermissions(criteria).map(groupPermissionResponseMapper::toDto));
+    }
+
+    @Override
+    public PageResponse<UserGroupResponse> getPageUser(
+            Long authGroupId,
+            String search,
+            String sorter,
+            Integer current,
+            Integer pageSize
+    ) {
+        UserGroupCriteria criteria = UserGroupCriteria.builder()
+                .authGroupId(authGroupId)
+                .search(search)
+                .sorter(sorter)
+                .current(current)
+                .pageSize(pageSize)
+                .build();
+        return PageResponse.success(userGroupService.findAll(criteria).map(userGroupResponseMapper::toDomain));
+    }
+
+    @Override
     public ValueResponse<AuthGroupResponse> updateByCode(String authGroupCode, AuthGroupRequest request) {
         return ValueResponse.success(responseMapper
                 .toDomain(authGroupService.updateByCode(authGroupCode,
@@ -75,6 +126,12 @@ public class AuthGroupController implements AuthGroupApi {
     @Override
     public ValueResponse<?> addPermissionList(String authGroupCode, PermissionRequest.PermissionCodeListRequest request) {
         authGroupService.addPermissionList(authGroupCode, request.permissionCodeList());
+        return ValueResponse.success(authGroupCode);
+    }
+
+    @Override
+    public ValueResponse<?> addUser(String authGroupCode, UserRequest.UserIdListRequest request) {
+        authGroupService.addUserList(authGroupCode, request.userIdList());
         return ValueResponse.success(authGroupCode);
     }
 

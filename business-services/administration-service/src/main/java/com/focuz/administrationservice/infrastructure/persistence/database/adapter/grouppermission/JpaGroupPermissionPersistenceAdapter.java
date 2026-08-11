@@ -1,6 +1,7 @@
 package com.focuz.administrationservice.infrastructure.persistence.database.adapter.grouppermission;
 
 import com.focuz.administrationservice.domain.entity.grouppermission.GroupPermission;
+import com.focuz.administrationservice.domain.entity.grouppermission.GroupPermissionCriteria;
 import com.focuz.administrationservice.domain.repository.grouppermission.GroupPermissionRepository;
 import com.focuz.administrationservice.infrastructure.persistence.database.mapper.grouppermission.GroupPermissionDaoMapper;
 import com.focuz.administrationservice.infrastructure.persistence.database.mapper.grouppermission.GroupPermissionEntityMapper;
@@ -8,6 +9,8 @@ import com.focuz.administrationservice.infrastructure.persistence.database.repos
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -27,12 +30,8 @@ public class JpaGroupPermissionPersistenceAdapter implements GroupPermissionRepo
     }
 
     @Override
-    public List<GroupPermission> findAllByAuthGroupId(Long groupId) {
-        return daoMapper.toDomain(repository.findAllByAuthGroupId(groupId));
-    }
-
-    @Override
-    public List<GroupPermission> findAllByAuthGroupIdIn(List<Long> groupIds) {
-        return daoMapper.toDomain(repository.findAllByAuthGroupIdIn(groupIds));
+    public Page<GroupPermission> findAll(GroupPermissionCriteria criteria, PageRequest pageRequest) {
+        return repository.findAll(criteria, pageRequest)
+                .map(daoMapper::toDomain);
     }
 }

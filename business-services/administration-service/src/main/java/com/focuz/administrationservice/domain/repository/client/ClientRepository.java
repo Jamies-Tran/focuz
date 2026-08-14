@@ -16,4 +16,5 @@ public interface ClientRepository {
     Optional<Client> updateByClientCode(String clientCode, Client client);
     Optional<Client> updateByClientCode(String clientCode, EClientStatus status);
     void deleteAllByClientCodeIn(List<String> clientCodes);
+    Boolean existsAllByClientCodeIn(List<String> clientCodes);
 }

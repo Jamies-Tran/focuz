@@ -30,15 +30,22 @@ public class PermissionController implements PermissionApi {
 
     @Override
     public ListResponse<PermissionResponse> createList(PermissionRequest.PermissionListRequest request) {
-        return ListResponse.success(responseMapper.toDomain(permissionService
-                .createList(requestMapper.toDto(request.permissionRequestList()))));
+        return ListResponse.success(
+                responseMapper.toDto(
+                        permissionService.createList(
+                                requestMapper.toDomain(request.permissionRequestList())
+                        )
+                )
+        );
     }
 
     @Override
     public ValueResponse<PermissionResponse> getDetailByCode(String permissionCode) {
-        return ValueResponse.success(permissionService.getDetailByCode(permissionCode)
-                .map(responseMapper::toDomain)
-                .orElseThrow(() -> new ApplicationException(EAppError.PERMISSION_NOT_FOUND, HttpStatus.NOT_FOUND)));
+        return ValueResponse.success(
+                permissionService.getDetailByCode(permissionCode)
+                        .map(responseMapper::toDto)
+                        .orElseThrow(() -> new ApplicationException(EAppError.PERMISSION_NOT_FOUND, HttpStatus.NOT_FOUND))
+        );
     }
 
     @Override
@@ -58,25 +65,36 @@ public class PermissionController implements PermissionApi {
                 .current(current)
                 .pageSize(pageSize)
                 .build();
-        return PageResponse.success(permissionService.getPage(criteria).map(responseMapper::toDomain));
+        return PageResponse.success(
+                permissionService.getPage(criteria).map(responseMapper::toDto)
+        );
     }
 
     @Override
     public ValueResponse<PermissionResponse> updateByCode(String permissionCode, PermissionRequest request) {
-        return ValueResponse.success(responseMapper.toDomain(permissionService
-                .updateByCode(permissionCode, requestMapper.toDto(request))));
+        return ValueResponse.success(
+                responseMapper.toDto(
+                        permissionService.updateByCode(permissionCode, requestMapper.toDomain(request))
+                )
+        );
     }
 
     @Override
     public ValueResponse<PermissionResponse> activeByCode(String permissionCode) {
-        return ValueResponse.success(responseMapper
-                .toDomain(permissionService.activeByCode(permissionCode)));
+        return ValueResponse.success(
+                responseMapper.toDto(
+                        permissionService.activeByCode(permissionCode)
+                )
+        );
     }
 
     @Override
     public ValueResponse<PermissionResponse> inactiveByCode(String permissionCode) {
-        return ValueResponse.success(responseMapper
-                .toDomain(permissionService.inactiveByCode(permissionCode)));
+        return ValueResponse.success(
+                responseMapper.toDto(
+                        permissionService.inactiveByCode(permissionCode)
+                )
+        );
     }
 
     @Override

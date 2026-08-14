@@ -7,5 +7,5 @@ import com.focuz.corestarter.infrastructure.bootstrap.mapper.GlobalMapStructConf
 import org.mapstruct.Mapper;
 
 @Mapper(config = GlobalMapStructConfiguration.class)
-public interface AuthGroupResponseMapper extends DomainMapper<AuthGroupResponse, AuthGroup> {
+public interface AuthGroupResponseMapper extends DomainMapper<AuthGroup, AuthGroupResponse> {
 }

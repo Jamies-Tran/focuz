@@ -7,5 +7,5 @@ import com.focuz.corestarter.infrastructure.bootstrap.mapper.GlobalMapStructConf
 import org.mapstruct.Mapper;
 
 @Mapper(config = GlobalMapStructConfiguration.class)
-public interface PermissionResponseMapper extends DomainMapper<PermissionResponse, Permission> {
+public interface PermissionResponseMapper extends DomainMapper<Permission, PermissionResponse> {
 }

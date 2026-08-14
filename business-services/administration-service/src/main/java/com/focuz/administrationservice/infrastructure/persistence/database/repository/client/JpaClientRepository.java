@@ -15,13 +15,14 @@ import java.util.Optional;
 public interface JpaClientRepository extends JpaRepository<ClientEntity, Long> {
     Optional<ClientEntity> findByClientCode(String clientCode);
     List<ClientEntity> findAllByClientCodeIn(List<String> clientCodes);
+    Boolean existsAllByClientCodeIn(List<String> clientCodes);
     @Query("""
         SELECT c
         FROM ClientEntity c
         WHERE (:#{#criteria.search().empty} = TRUE
                 OR c.search LIKE %:#{#criteria.search()}%)
             AND (:#{#criteria.clientCodes().empty} = TRUE
-                    OR c.statusCode IN :#{#criteria.clientCodes()})
+                    OR c.clientCode IN :#{#criteria.clientCodes()})
             AND (:#{#criteria.statusCodes().empty} = TRUE
                     OR c.statusCode IN :#{#criteria.statusCodes()}) 
         """)

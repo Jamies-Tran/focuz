@@ -12,6 +12,8 @@ public record Client(
         String clientSecret,
         String redirectUri,
         String search,
+        String statusCode,
+        String statusName,
         String createdBy,
         String updatedBy,
         LocalDateTime createdAt,

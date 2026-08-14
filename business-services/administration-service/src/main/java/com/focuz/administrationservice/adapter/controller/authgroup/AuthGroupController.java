@@ -45,16 +45,20 @@ public class AuthGroupController implements AuthGroupApi {
 
     @Override
     public ListResponse<AuthGroupResponse> createList(AuthGroupRequest.AuthGroupListRequest request) {
-        return ListResponse.success(responseMapper
-                .toDomain(authGroupService.createList(requestMapper
-                        .toDto(request.requestList()))));
+        return ListResponse.success(responseMapper.toDto(
+                authGroupService.createList(
+                        requestMapper.toDomain(request.requestList()))
+                )
+        );
     }
 
     @Override
     public ValueResponse<AuthGroupResponse> getDetailByAuthGroupCode(String authGroupCode) {
-        return ValueResponse.success(authGroupService.getDetailByCode(authGroupCode)
-                .map(responseMapper::toDomain)
-                .orElseThrow(() -> new ApplicationException(EAppError.AUTH_GROUP_NOT_FOUND, HttpStatus.NOT_FOUND)));
+        return ValueResponse.success(
+                authGroupService.getDetailByCode(authGroupCode)
+                        .map(responseMapper::toDto)
+                        .orElseThrow(() -> new ApplicationException(EAppError.AUTH_GROUP_NOT_FOUND, HttpStatus.NOT_FOUND))
+        );
     }
 
     @Override
@@ -74,8 +78,9 @@ public class AuthGroupController implements AuthGroupApi {
                 .current(current)
                 .pageSize(pageSize)
                 .build();
-        return PageResponse.success(authGroupService.getPage(criteria)
-                .map(responseMapper::toDomain));
+        return PageResponse.success(
+                authGroupService.getPage(criteria).map(responseMapper::toDto)
+        );
     }
 
     @Override
@@ -95,7 +100,9 @@ public class AuthGroupController implements AuthGroupApi {
                 .current(current)
                 .pageSize(pageSize)
                 .build();
-        return PageResponse.success(groupPermissionService.getPagePermissions(criteria).map(groupPermissionResponseMapper::toDto));
+        return PageResponse.success(
+                groupPermissionService.getPagePermissions(criteria).map(groupPermissionResponseMapper::toDto)
+        );
     }
 
     @Override
@@ -113,14 +120,18 @@ public class AuthGroupController implements AuthGroupApi {
                 .current(current)
                 .pageSize(pageSize)
                 .build();
-        return PageResponse.success(userGroupService.findAll(criteria).map(userGroupResponseMapper::toDomain));
+        return PageResponse.success(
+                userGroupService.findAll(criteria).map(userGroupResponseMapper::toDto)
+        );
     }
 
     @Override
     public ValueResponse<AuthGroupResponse> updateByCode(String authGroupCode, AuthGroupRequest request) {
-        return ValueResponse.success(responseMapper
-                .toDomain(authGroupService.updateByCode(authGroupCode,
-                        requestMapper.toDto(request))));
+        return ValueResponse.success(
+                responseMapper.toDto(
+                        authGroupService.updateByCode(authGroupCode, requestMapper.toDomain(request))
+                )
+        );
     }
 
     @Override
@@ -137,12 +148,20 @@ public class AuthGroupController implements AuthGroupApi {
 
     @Override
     public ValueResponse<AuthGroupResponse> activeByCode(String authGroupCode) {
-        return ValueResponse.success(responseMapper.toDomain(authGroupService.activeByCode(authGroupCode)));
+        return ValueResponse.success(
+                responseMapper.toDto(
+                        authGroupService.activeByCode(authGroupCode)
+                )
+        );
     }
 
     @Override
     public ValueResponse<AuthGroupResponse> inactiveByCode(String authGroupCode) {
-        return ValueResponse.success(responseMapper.toDomain(authGroupService.inactiveByCode(authGroupCode)));
+        return ValueResponse.success(
+                responseMapper.toDto(
+                        authGroupService.inactiveByCode(authGroupCode)
+                )
+        );
     }
 
     @Override

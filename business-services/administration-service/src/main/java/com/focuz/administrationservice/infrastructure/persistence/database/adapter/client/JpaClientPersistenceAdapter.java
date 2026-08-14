@@ -63,4 +63,9 @@ public class JpaClientPersistenceAdapter implements ClientRepository {
     public void deleteAllByClientCodeIn(List<String> clientCodes) {
         repository.deleteAll(repository.findAllByClientCodeIn(clientCodes));
     }
+
+    @Override
+    public Boolean existsAllByClientCodeIn(List<String> clientCodes) {
+        return repository.existsAllByClientCodeIn(clientCodes);
+    }
 }

@@ -11,4 +11,5 @@ import java.util.List;
 public interface GroupPermissionService {
     List<GroupPermission> createList(Long authGroupId, List<String> permissionCodes);
     Page<GroupPermission> getPagePermissions(GroupPermissionCriteria criteria);
+    void removeList(String authGroupCode, List<String> permissionCodes);
 }

@@ -150,4 +150,16 @@ public class AuthGroupController implements AuthGroupApi {
         authGroupService.removeListByCodeIn(request.authGroupCodeList());
         return ListResponse.success(request.authGroupCodeList());
     }
+
+    @Override
+    public ValueResponse<?> removePermissionList(String authGroupCode, PermissionRequest.PermissionCodeListRequest request) {
+        authGroupService.removePermissionList(authGroupCode, request.permissionCodeList());
+        return ValueResponse.success(request.permissionCodeList());
+    }
+
+    @Override
+    public ValueResponse<?> removeUserList(String authGroupCode, UserRequest.UserIdListRequest request) {
+        authGroupService.removeUserList(authGroupCode, request.userIdList());
+        return ValueResponse.success(request.userIdList());
+    }
 }

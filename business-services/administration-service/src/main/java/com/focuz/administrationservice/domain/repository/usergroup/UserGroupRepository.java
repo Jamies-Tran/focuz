@@ -10,4 +10,6 @@ import java.util.List;
 public interface UserGroupRepository {
     List<UserGroup> saveAll(List<UserGroup> userGroups);
     Page<UserGroup> findAll(UserGroupCriteria criteria, PageRequest pageRequest);
+    List<Long> findAllUserGroupIdByAuthGroupCodeAndUserIdIn(String authGroupCode, List<Long> userIds);
+    void deleteAllByUserGroupIdIn(List<Long> userGroupIds);
 }

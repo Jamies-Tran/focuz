@@ -9,4 +9,5 @@ import java.util.List;
 public interface UserGroupService {
     List<UserGroup> createList(Long authGroupId, List<Long> userIds);
     Page<UserGroup> findAll(UserGroupCriteria criteria);
+    void removeList(String authGroupCode, List<Long> userIds);
 }

@@ -15,6 +15,15 @@ import java.util.Optional;
 @Repository
 public interface JpaGroupPermissionRepository extends JpaRepository<GroupPermissionEntity, Long> {
     @Query("""
+        SELECT DISTINCT gp.groupPermissionId
+        FROM GroupPermissionEntity gp
+        INNER JOIN AuthGroupEntity ag ON ag.authGroupId = gp.authGroupId
+        INNER JOIN PermissionEntity p ON p.permissionId = gp.permissionId
+        WHERE ag.authGroupCode = :authGroupCode
+                AND p.permissionCode IN :permissionCodes
+        """)
+    List<Long> findAllGroupPermissionIdByAuthGroupCodeAndPermissionCodeIn(String authGroupCode, List<String> permissionCodes);
+    @Query("""
         SELECT 
                 gp.groupPermissionId AS groupPermissionId,
                 gp.authGroupId AS authGroupId,

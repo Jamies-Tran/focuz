@@ -33,4 +33,14 @@ public class JpaUserGroupPersistenceAdapter implements UserGroupRepository {
         return repository.findAll(criteria, pageRequest)
                 .map(daoMapper::toDomain);
     }
+
+    @Override
+    public List<Long> findAllUserGroupIdByAuthGroupCodeAndUserIdIn(String authGroupCode, List<Long> userIds) {
+        return repository.findAllUserGroupIdByAuthGroupCodeAndUserIdIn(authGroupCode, userIds);
+    }
+
+    @Override
+    public void deleteAllByUserGroupIdIn(List<Long> userGroupIds) {
+        repository.deleteAllById(userGroupIds);
+    }
 }

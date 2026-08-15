@@ -38,4 +38,12 @@ public class GroupPermissionUseCase implements GroupPermissionService {
     public Page<GroupPermission> getPagePermissions(GroupPermissionCriteria criteria) {
         return repository.findAll(criteria, criteria.pageRequest());
     }
+
+    @Override
+    @Transactional
+    public void removeList(String authGroupCode, List<String> permissionCodes) {
+       List<Long> groupPermissionIds = repository
+               .findAllGroupPermissionIdByAuthGroupCodeAndPermissionCodeIn(authGroupCode, permissionCodes);
+       repository.deleteAllByGroupPermissionIdIn(groupPermissionIds);
+    }
 }

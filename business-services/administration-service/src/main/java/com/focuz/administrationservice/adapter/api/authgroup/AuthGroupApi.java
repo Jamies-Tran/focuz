@@ -85,4 +85,10 @@ public interface AuthGroupApi {
 
     @DeleteMapping
     ListResponse<?> removeListByCodeIn(@RequestBody @Validated AuthGroupRequest.AuthGroupCodeListRequest request);
+
+    @DeleteMapping("/{authGroupCode}/permissions")
+    ValueResponse<?> removePermissionList(@PathVariable String authGroupCode, @RequestBody @Validated PermissionRequest.PermissionCodeListRequest request);
+
+    @DeleteMapping("/{authGroupCode}/users")
+    ValueResponse<?> removeUserList(@PathVariable String authGroupCode, @RequestBody @Validated UserRequest.UserIdListRequest request);
 }

@@ -14,6 +14,15 @@ import java.util.List;
 @Repository
 public interface JpaUserGroupRepository extends JpaRepository<UserGroupEntity, Long> {
     @Query("""
+        SELECT DISTINCT ug.userGroupId
+        FROM UserGroupEntity ug
+        INNER JOIN AuthGroupEntity ag ON ag.authGroupId = ug.authGroupId
+        INNER JOIN UserEntity u ON u.userId = ug.userId
+        WHERE ag.authGroupCode = :autGroupCode
+                AND u.userId IN :userIds
+        """)
+    List<Long> findAllUserGroupIdByAuthGroupCodeAndUserIdIn(String autGroupCode, List<Long> userIds);
+    @Query("""
         SELECT 
                 ug.userGroupId AS userGroupId,
                 ug.userId AS userId,

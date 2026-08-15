@@ -30,4 +30,12 @@ public class UserGroupUseCase implements UserGroupService {
     public Page<UserGroup> findAll(UserGroupCriteria criteria) {
         return repository.findAll(criteria, criteria.pageRequest());
     }
+
+    @Override
+    @Transactional
+    public void removeList(String authGroupCode, List<Long> userIds) {
+        List<Long> userGroupIds = repository
+                .findAllUserGroupIdByAuthGroupCodeAndUserIdIn(authGroupCode, userIds);
+        repository.deleteAllByUserGroupIdIn(userGroupIds);
+    }
 }

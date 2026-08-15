@@ -34,4 +34,14 @@ public class JpaGroupPermissionPersistenceAdapter implements GroupPermissionRepo
         return repository.findAll(criteria, pageRequest)
                 .map(daoMapper::toDomain);
     }
+
+    @Override
+    public List<Long> findAllGroupPermissionIdByAuthGroupCodeAndPermissionCodeIn(String authGroupCode, List<String> permissionCodes) {
+        return repository.findAllGroupPermissionIdByAuthGroupCodeAndPermissionCodeIn(authGroupCode, permissionCodes);
+    }
+
+    @Override
+    public void deleteAllByGroupPermissionIdIn(List<Long> groupPermissionIds) {
+        repository.deleteAllById(groupPermissionIds);
+    }
 }

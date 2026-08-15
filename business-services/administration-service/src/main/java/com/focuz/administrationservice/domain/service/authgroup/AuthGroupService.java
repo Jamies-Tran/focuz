@@ -16,5 +16,7 @@ public interface AuthGroupService {
     AuthGroup inactiveByCode(String authGroupCode);
     void removeListByCodeIn(List<String> authGroupCode);
     void addPermissionList(String authGroupCode, List<String> permissionCodes);
+    void removePermissionList(String authGroupCode, List<String> permissionCodes);
     void addUserList(String authGroupCode, List<Long> userIds);
+    void removeUserList(String authGroupCode, List<Long> userIds);
 }

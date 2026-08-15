@@ -89,11 +89,23 @@ public class AuthGroupUseCase implements AuthGroupService {
 
     @Override
     @Transactional
+    public void removePermissionList(String authGroupCode, List<String> permissionCodes) {
+        groupPermissionService.removeList(authGroupCode, permissionCodes);
+    }
+
+    @Override
+    @Transactional
     public void addUserList(String authGroupCode, List<Long> userIds) {
         Long authGroupId =  repository.findByAuthGroupCode(authGroupCode)
                 .map(AuthGroup::authGroupId)
                 .orElseThrow(() -> new ApplicationException(EAppError.AUTH_GROUP_NOT_FOUND, HttpStatus.NOT_FOUND));
         userGroupService.createList(authGroupId, userIds);
+    }
+
+    @Override
+    @Transactional
+    public void removeUserList(String authGroupCode, List<Long> userIds) {
+        userGroupService.removeList(authGroupCode, userIds);
     }
 
     private void validateCreateList(List<AuthGroup> authGroups) {

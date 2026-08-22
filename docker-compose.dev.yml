@@ -37,6 +37,38 @@ services:
       retries: 3
       timeout: 10s
 
+
+  focuz-mongo-dev:
+    image: mongo:latest
+    container_name: focuz-mongo-dev
+    networks:
+      - focuz-dev
+    volumes:
+      - ./database/mongo/dev/data:/data/db
+    restart: always
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: focuz
+      MONGO_INITDB_ROOT_PASSWORD: 123
+      MONGO_INITDB_DATABASE: auth
+    healthcheck:
+      test: [
+        "CMD",
+        "mongosh",
+        "--username",
+        "focuz",
+        "--password",
+        "123",
+        "--authenticationDatabase",
+        "admin",
+        "--eval",
+        "db.adminCommand('ping').ok"
+      ]
+      interval: 5s
+      retries: 3
+      timeout: 10s
+
   administration-flyway-dev:
     image: flyway/flyway:latest
     container_name: administration-migration-dev

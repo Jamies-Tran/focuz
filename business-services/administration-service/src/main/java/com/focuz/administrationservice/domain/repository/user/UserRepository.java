@@ -11,6 +11,7 @@ import java.util.Optional;
 public interface UserRepository {
     User save(User user);
     Optional<User> findById(Long userId);
+    Optional<User> findByUsername(String username);
     Page<User> findAll(UserCriteria criteria, PageRequest pageRequest);
     Optional<User> update(Long userId, User user);
     Optional<User> update(Long userId, EUserStatus status);

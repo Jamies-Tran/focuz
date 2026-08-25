@@ -2,6 +2,7 @@ package com.focuz.administrationservice.adapter.controller.user;
 
 import com.focuz.administrationservice.adapter.api.user.UserApi;
 import com.focuz.administrationservice.application.dto.request.user.UserRequest;
+import com.focuz.administrationservice.application.dto.request.user.UserValidateRequest;
 import com.focuz.administrationservice.application.dto.response.user.UserResponse;
 import com.focuz.administrationservice.application.mapper.request.user.UserRequestMapper;
 import com.focuz.administrationservice.application.mapper.response.user.UserResponseMapper;
@@ -30,9 +31,19 @@ public class UserController implements UserApi {
     UserResponseMapper responseMapper;
 
     @Override
-    public ValueResponse<?> create(UserRequest request) {
+    public ValueResponse<UserResponse> create(UserRequest request) {
         return ValueResponse.success(responseMapper
                 .toDto(userService.create(requestMapper.toDomain(request))));
+    }
+
+    @Override
+    public ValueResponse<UserResponse> validateByUsernameAndPassword(UserValidateRequest request) {
+        return ValueResponse.success(
+                responseMapper.toDto(
+                        userService.validateByUsernameAndPassword(request.username(), request.password())
+                                .orElseThrow(() -> new ApplicationException(EAppError.ACCOUNT_VALIDATE_FAIL, HttpStatus.NOT_FOUND))
+                )
+        );
     }
 
     @Override
@@ -64,7 +75,7 @@ public class UserController implements UserApi {
     }
 
     @Override
-    public ValueResponse<?> update(Long userId, UserRequest request) {
+    public ValueResponse<UserResponse> update(Long userId, UserRequest request) {
         return ValueResponse.success(responseMapper.toDto(userService.update(userId, requestMapper.toDomain(request))));
     }
 
@@ -75,12 +86,12 @@ public class UserController implements UserApi {
     }
 
     @Override
-    public ValueResponse<?> active(Long userId) {
+    public ValueResponse<UserResponse> active(Long userId) {
         return ValueResponse.success(responseMapper.toDto(userService.active(userId)));
     }
 
     @Override
-    public ValueResponse<?> inactive(Long userId) {
+    public ValueResponse<UserResponse> inactive(Long userId) {
         return ValueResponse.success(responseMapper.toDto(userService.inactive(userId)));
     }
 }

@@ -34,6 +34,12 @@ public class JpaUserPersistenceAdapter implements UserRepository {
     }
 
     @Override
+    public Optional<User> findByUsername(String username) {
+        return repository.findByUsername(username)
+                .map(mapper::toDomain);
+    }
+
+    @Override
     public Page<User> findAll(UserCriteria criteria, PageRequest pageRequest) {
         return repository.findAll(criteria, pageRequest)
                 .map(mapper::toDomain);

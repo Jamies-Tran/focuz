@@ -9,6 +9,7 @@ import java.util.Optional;
 public interface UserService {
     User create(User user);
     Optional<User> getDetail(Long userId);
+    Optional<User> validateByUsernameAndPassword(String username, String password);
     Page<User> getPage(UserCriteria criteria);
     User update(Long userId, User user);
     void remove(Long userId);

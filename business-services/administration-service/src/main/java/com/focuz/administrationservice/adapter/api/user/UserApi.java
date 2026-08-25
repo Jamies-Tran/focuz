@@ -1,6 +1,7 @@
 package com.focuz.administrationservice.adapter.api.user;
 
 import com.focuz.administrationservice.application.dto.request.user.UserRequest;
+import com.focuz.administrationservice.application.dto.request.user.UserValidateRequest;
 import com.focuz.administrationservice.application.dto.response.user.UserResponse;
 import com.focuz.corestarter.domain.entity.template.response.PageResponse;
 import com.focuz.corestarter.domain.entity.template.response.ValueResponse;
@@ -15,7 +16,10 @@ import java.util.List;
 @RequestMapping("/v1/users")
 public interface UserApi {
     @PostMapping
-    ValueResponse<?> create(@RequestBody @Validated UserRequest request);
+    ValueResponse<UserResponse> create(@RequestBody @Validated UserRequest request);
+
+    @PostMapping("/validate")
+    ValueResponse<UserResponse> validateByUsernameAndPassword(@RequestBody @Validated UserValidateRequest request);
 
     @GetMapping("/{userId}")
     ValueResponse<UserResponse> getDetail(@PathVariable Long userId);
@@ -39,14 +43,14 @@ public interface UserApi {
     );
 
     @PutMapping("/{userId}")
-    ValueResponse<?> update(@PathVariable Long userId, @RequestBody @Validated UserRequest request);
+    ValueResponse<UserResponse> update(@PathVariable Long userId, @RequestBody @Validated UserRequest request);
 
     @DeleteMapping("/{userId}")
     ValueResponse<?> remove(@PathVariable Long userId);
 
     @PatchMapping("/{userId}/active")
-    ValueResponse<?> active(@PathVariable Long userId);
+    ValueResponse<UserResponse> active(@PathVariable Long userId);
 
     @PatchMapping("/{userId}/inactive")
-    ValueResponse<?> inactive(@PathVariable Long userId);
+    ValueResponse<UserResponse> inactive(@PathVariable Long userId);
 }

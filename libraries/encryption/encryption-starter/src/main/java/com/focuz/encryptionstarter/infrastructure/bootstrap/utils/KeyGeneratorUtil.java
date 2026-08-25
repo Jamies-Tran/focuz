@@ -3,6 +3,7 @@ package com.focuz.encryptionstarter.infrastructure.bootstrap.utils;
 import com.focuz.encryptionstarter.infrastructure.properties.EncryptionStarterProperties;
 import jakarta.annotation.PostConstruct;
 import lombok.AccessLevel;
+import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 
@@ -16,7 +17,8 @@ import java.security.spec.X509EncodedKeySpec;
 import java.util.Base64;
 
 @Slf4j
-@FieldDefaults(level = AccessLevel.PRIVATE)
+@RequiredArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class KeyGeneratorUtil {
     EncryptionStarterProperties properties;
 

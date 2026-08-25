@@ -19,7 +19,8 @@ public enum EAppError implements ApplicationErrorCode {
     AUTH_GROUP_DUPLICATE_IN_DB("AUTH_GROUP_DUPLICATE_IN_DB", "Mã nhóm quyền đã tồn tại."),
     PERMISSION_NOT_FOUND("PERMISSION_NOT_FOUND", "Quyền không tồn tại."),
     PERMISSION_DUPLICATE_IN_LIST("PERMISSION_DUPLICATE_IN_LIST", "Danh sách quyền không hợp lệ. Vui lòng kiểm tra lại."),
-    PERMISSION_DUPLICATE_IN_DB("PERMISSION_DUPLICATE_IN_DB", "Mã quyền đã tồn tại."),;
+    PERMISSION_DUPLICATE_IN_DB("PERMISSION_DUPLICATE_IN_DB", "Mã quyền đã tồn tại."),
+    ACCOUNT_VALIDATE_FAIL("ACCOUNT_VALIDATE_FAIL", "Tài khoản không hợp lệ");
 
     String code;
     String message;

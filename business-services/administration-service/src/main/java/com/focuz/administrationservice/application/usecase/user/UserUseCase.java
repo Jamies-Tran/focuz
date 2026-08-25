@@ -54,6 +54,18 @@ public class UserUseCase implements UserService {
 
     @Override
     @Transactional(readOnly = true)
+    public Optional<User> validateByUsernameAndPassword(String username, String password) {
+        Optional<User> user =  repository.findByUsername(username);
+        user.ifPresent(u -> {
+            if(!passwordEncoder.matches(password, u.password())) {
+                throw new ApplicationException(EAppError.ACCOUNT_VALIDATE_FAIL, HttpStatus.BAD_REQUEST);
+            }
+        });
+        return user;
+    }
+
+    @Override
+    @Transactional(readOnly = true)
     public Page<User> getPage(UserCriteria criteria) {
         Page<User> users = repository.findAll(criteria, criteria.pageRequest());
         List<Long> userIds = users.stream()

@@ -1,0 +1,107 @@
+import java.text.SimpleDateFormat
+
+plugins {
+    id 'java-library'
+    id 'maven-publish'
+    id 'org.springframework.boot' version '3.5.15'
+    id 'io.spring.dependency-management' version '1.1.7'
+}
+
+def projectGroupId="com.focuz"
+def projectArtifactId="isc-starter"
+def buildVersion="develop-${new SimpleDateFormat("yyyyMMdd-HHmmss").format(new Date())}-SNAPSHOT"
+
+def envFile=rootProject.file(".env")
+if(envFile.exists()) {
+    envFile.eachLine {
+        l -> {
+            if(l.contains("=")) {
+                def line=l.split("=", 2)
+                System.setProperty(line[0].trim(), line[1].trim())
+            }
+        }
+    }
+}
+
+def GIT_USERNAME=System.getProperty("GIT_USERNAME")
+def GIT_TOKEN=System.getProperty("GIT_TOKEN")
+
+group = projectGroupId
+version = buildVersion
+description = projectArtifactId
+
+print("buildVersion:${buildVersion}\ngroup:${projectGroupId}\nartifact:${projectArtifactId}")
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(21)
+    }
+}
+
+repositories {
+    mavenCentral()
+    maven {
+        name="GithubPackage"
+        url=uri("https://maven.pkg.github.com/Jamies-Tran/focuz")
+        credentials{
+            username=GIT_USERNAME
+            password=GIT_TOKEN
+        }
+    }
+}
+
+ext {
+    set('springCloudVersion', "2025.0.2")
+    set('coreStarterVersion', property("CORE_STARTER_VERSION"))
+}
+
+dependencies {
+    api 'org.springframework.boot:spring-boot-starter'
+    api 'org.springframework.boot:spring-boot-autoconfigure'
+    api 'org.springframework.boot:spring-boot-starter-validation:4.1.0-M4'
+    api "com.focuz:core-starter:${coreStarterVersion}"
+    implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
+}
+
+dependencyManagement {
+    imports {
+        mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+    }
+}
+
+tasks.named('test') {
+    useJUnitPlatform()
+}
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            from components.java
+
+            groupId = projectGroupId
+            artifactId = projectArtifactId
+            version = buildVersion
+
+            versionMapping {
+                usage('java-api') {
+                    fromResolutionOf('runtimeClasspath')
+                }
+                usage('java-runtime') {
+                    fromResolutionResult()
+                }
+            }
+        }
+    }
+    repositories {
+        maven {
+            name="GithubPackage"
+            url=uri("https://maven.pkg.github.com/Jamies-Tran/focuz")
+            credentials{
+                username=GIT_USERNAME
+                password=GIT_TOKEN
+            }
+        }
+    }
+}

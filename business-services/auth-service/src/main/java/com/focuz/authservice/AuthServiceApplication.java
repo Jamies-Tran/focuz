@@ -1,9 +1,13 @@
 package com.focuz.authservice;
 
+import com.focuz.iscstarter.infrastructure.properties.administration.EnableAdministrationStarterIsc;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
 @SpringBootApplication
+@EnableJpaAuditing
+@EnableAdministrationStarterIsc
 public class AuthServiceApplication {
 
     public static void main(String[] args) {

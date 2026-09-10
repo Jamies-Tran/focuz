@@ -1,5 +1,0 @@
-internal:
-  administration:
-    domain: http://localhost:8082
-    prefix-service: /api/administration-service
-    user-validate: /v1/users/validate

@@ -7,11 +7,11 @@ services:
     ports:
       - "3306:3306"
     volumes:
+      - ./migration/focuz-migration/flyway/mysql/init:/docker-entrypoint-initdb.d
       - ./database/mysql/dev/data:/var/lib/mysql
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: 123
-      MYSQL_DATABASE: administration
       TZ: Asia/Ho_Chi_Minh
     healthcheck:
       test: [ "CMD", "mysqladmin", "ping", "-h", "localhost", "-uroot", "-p123" ]
@@ -80,10 +80,26 @@ services:
       - "-password=123"
       - "migrate"
     volumes:
-      - ./migration/administration-migration/flyway/mysql:/flyway/sql
+      - ./migration/focuz-migration/flyway/mysql/administration:/flyway/sql
     depends_on:
       focuz-db-dev:
           condition: service_healthy
+
+  auth-flyway-dev:
+    image: flyway/flyway:latest
+    container_name: auth-flyway-dev
+    networks:
+      - focuz-dev
+    command:
+      - "-url=jdbc:mysql://focuz-db-dev:3306/auth?allowPublicKeyRetrieval=true&useSSL=false&serverTimezone=Asia/Ho_Chi_Minh"
+      - "-user=root"
+      - "-password=123"
+      - "migrate"
+    volumes:
+      - ./migration/focuz-migration/flyway/mysql/auth:/flyway/sql
+    depends_on:
+      focuz-db-dev:
+        condition: service_healthy
 
   discovery-dev:
     build:
@@ -121,6 +137,26 @@ services:
       focuz-db-dev:
         condition: service_healthy
       focuz-cache-dev:
+        condition: service_healthy
+      discovery-dev:
+        condition: service_started
+
+  auth-dev:
+    build:
+      context: ./business-services/auth-service/.
+    container_name: auth-dev
+    networks:
+      - focuz-dev
+    ports:
+      - "8083:8081"
+    environment:
+      SPRING_PROFILES_ACTIVE: dev
+    depends_on:
+      focuz-db-dev:
+        condition: service_healthy
+      focuz-cache-dev:
+        condition: service_healthy
+      focuz-mongo-dev:
         condition: service_healthy
       discovery-dev:
         condition: service_started

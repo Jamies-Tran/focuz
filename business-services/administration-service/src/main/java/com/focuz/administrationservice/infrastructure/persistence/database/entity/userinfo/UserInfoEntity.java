@@ -1,6 +1,6 @@
 package com.focuz.administrationservice.infrastructure.persistence.database.entity.userinfo;
 
-import com.focuz.administrationservice.infrastructure.bootstrap.utils.StringConvertUtils;
+import com.focuz.corestarter.infrastructure.bootstrap.utils.StringConvertUtils;
 import com.focuz.corestarter.infrastructure.persistence.database.entity.BaseAuditorEntity;
 import jakarta.persistence.*;
 import lombok.*;

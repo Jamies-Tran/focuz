@@ -1,7 +1,7 @@
 package com.focuz.administrationservice.domain.entity.user;
 
-import com.focuz.administrationservice.infrastructure.bootstrap.utils.StringConvertUtils;
 import com.focuz.corestarter.infrastructure.bootstrap.utils.SorterUtils;
+import com.focuz.corestarter.infrastructure.bootstrap.utils.StringConvertUtils;
 import lombok.Builder;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.util.CollectionUtils;

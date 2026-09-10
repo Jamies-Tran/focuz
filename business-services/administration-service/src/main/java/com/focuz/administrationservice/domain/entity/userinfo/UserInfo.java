@@ -1,6 +1,5 @@
 package com.focuz.administrationservice.domain.entity.userinfo;
 
-import com.focuz.administrationservice.infrastructure.bootstrap.utils.StringConvertUtils;
 import lombok.Builder;
 import lombok.With;
 

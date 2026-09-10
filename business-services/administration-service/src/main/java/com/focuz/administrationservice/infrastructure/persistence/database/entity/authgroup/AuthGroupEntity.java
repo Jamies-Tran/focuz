@@ -1,8 +1,8 @@
 package com.focuz.administrationservice.infrastructure.persistence.database.entity.authgroup;
 
 import com.focuz.administrationservice.domain.constant.enums.authgroup.EAuthGroupStatus;
-import com.focuz.administrationservice.infrastructure.bootstrap.utils.StringConvertUtils;
 import com.focuz.administrationservice.infrastructure.persistence.bootstrap.utils.CodeGenerateUtils;
+import com.focuz.corestarter.infrastructure.bootstrap.utils.StringConvertUtils;
 import com.focuz.corestarter.infrastructure.persistence.database.entity.BaseAuditorEntity;
 import jakarta.persistence.*;
 import lombok.*;

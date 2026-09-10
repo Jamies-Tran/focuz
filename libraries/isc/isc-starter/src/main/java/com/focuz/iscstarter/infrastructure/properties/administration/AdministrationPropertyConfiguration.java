@@ -6,12 +6,13 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 
 @Configuration
-@PropertySource("classpath:application-administration-isc.yaml")
+@PropertySource("classpath:application-administration-isc.properties")
 @ComponentScan(
         basePackages = {
-                "com.focuz.iscstarter.application.administration",
+                "com.focuz.iscstarter.application.usecase.administration",
                 "com.focuz.iscstarter.domain.entity.administration",
-                "com.focuz.iscstarter.domain.service.administration"
+                "com.focuz.iscstarter.domain.service.administration",
+                "com.focuz.iscstarter.infrastructure.client"
         }
 )
 @EnableFeignClients(

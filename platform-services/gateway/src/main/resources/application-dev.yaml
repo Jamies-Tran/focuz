@@ -10,6 +10,12 @@ spring:
                 - Path=/api/administration-service/**
               filters:
                 - RewritePath=/api/administration-service/(?<segment>.*),/${segment}
+            - id: auth-service
+              uri: lb://AUTH-SERVICE
+              predicates:
+                - Path=/api/auth-service/**
+              filters:
+                - RewritePath=/api/auth-service/(?<segment>.*),/${segment}
   application:
     name: gateway
 

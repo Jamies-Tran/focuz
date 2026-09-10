@@ -40,12 +40,25 @@ java {
 
 repositories {
     mavenCentral()
+    maven {
+        name="GithubPackage"
+        url=uri("https://maven.pkg.github.com/Jamies-Tran/focuz")
+        credentials{
+            username=GIT_USERNAME
+            password=GIT_TOKEN
+        }
+    }
+}
+
+ext {
+    set("coreStarterVersion", property("CORE_STARTER_VERSION"))
 }
 
 dependencies {
     api 'org.springframework.boot:spring-boot-starter-security'
     api 'org.springframework.boot:spring-boot-autoconfigure'
     api 'org.springframework.boot:spring-boot-starter-web'
+    api "com.focuz:core-starter:${coreStarterVersion}"
     implementation 'io.jsonwebtoken:jjwt-api:0.13.0'
     runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.13.0'
     runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.13.0'

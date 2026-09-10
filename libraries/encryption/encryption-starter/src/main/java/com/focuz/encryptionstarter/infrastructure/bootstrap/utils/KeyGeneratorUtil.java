@@ -25,7 +25,7 @@ public class KeyGeneratorUtil {
     @PostConstruct
     public void init() {
         try {
-            KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance(properties.getRsaAlg());
+            KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance("RSA");
             KeyPair keyPair = keyPairGenerator.generateKeyPair();
             log.info("Rsa public key:\n%s".formatted(Base64.getEncoder().encodeToString(keyPair.getPublic().getEncoded())));
             log.info("Rsa private key:\n%s".formatted(Base64.getEncoder().encodeToString(keyPair.getPrivate().getEncoded())));
@@ -44,7 +44,7 @@ public class KeyGeneratorUtil {
         try {
             byte[] decodedPubKey = Base64.getDecoder().decode(pubKey.getBytes(StandardCharsets.UTF_8));
             X509EncodedKeySpec encodedKeySpec = new X509EncodedKeySpec(decodedPubKey);
-            KeyFactory keyFactory = KeyFactory.getInstance(properties.getRsaAlg());
+            KeyFactory keyFactory = KeyFactory.getInstance("RSA");
             return Base64.getEncoder().encodeToString(keyFactory.generatePublic(encodedKeySpec).getEncoded());
         } catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
             throw new RuntimeException(e);
@@ -55,7 +55,7 @@ public class KeyGeneratorUtil {
         try {
             byte[] decodedPubKey = Base64.getDecoder().decode(encodedPubKey.getBytes(StandardCharsets.UTF_8));
             X509EncodedKeySpec encodedKeySpec = new X509EncodedKeySpec(decodedPubKey);
-            KeyFactory keyFactory = KeyFactory.getInstance(properties.getRsaAlg());
+            KeyFactory keyFactory = KeyFactory.getInstance("RSA");
             return keyFactory.generatePublic(encodedKeySpec);
         } catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
             throw new RuntimeException(e);
@@ -86,7 +86,7 @@ public class KeyGeneratorUtil {
 
     public SecretKey generateAesPriKey() {
         try {
-            KeyGenerator keyGenerator = KeyGenerator.getInstance(properties.getAesAlg());
+            KeyGenerator keyGenerator = KeyGenerator.getInstance("AES");
             keyGenerator.init(properties.getAesKeySize());
             return keyGenerator.generateKey();
         } catch (NoSuchAlgorithmException  e) {

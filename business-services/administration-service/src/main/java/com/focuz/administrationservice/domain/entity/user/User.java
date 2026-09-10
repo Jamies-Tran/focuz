@@ -1,13 +1,10 @@
 package com.focuz.administrationservice.domain.entity.user;
 
-import com.focuz.administrationservice.domain.constant.enums.user.EUserStatus;
 import com.focuz.administrationservice.domain.entity.userinfo.UserInfo;
-import com.focuz.administrationservice.infrastructure.bootstrap.utils.StringConvertUtils;
 import lombok.Builder;
 import lombok.With;
 
 import java.time.LocalDateTime;
-import java.util.Optional;
 
 @Builder
 public record User(

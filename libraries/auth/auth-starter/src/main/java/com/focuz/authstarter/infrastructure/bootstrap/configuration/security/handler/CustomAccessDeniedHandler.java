@@ -1,6 +1,6 @@
 package com.focuz.authstarter.infrastructure.bootstrap.configuration.security.handler;
 
-import com.focuz.authstarter.infrastructure.bootstrap.configuration.jackson.JacksonMapper;
+import com.focuz.corestarter.infrastructure.bootstrap.configuration.jackson.JacksonMapper;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;

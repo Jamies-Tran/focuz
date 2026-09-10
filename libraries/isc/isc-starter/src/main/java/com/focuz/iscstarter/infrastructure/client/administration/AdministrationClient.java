@@ -8,7 +8,10 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
-@FeignClient("${internal.administration.domain}")
+@FeignClient(
+        name = "AdministrationClient",
+        url = "${internal.administration.domain}"
+)
 public interface AdministrationClient {
     @PostMapping("${internal.administration.prefix-service:}${internal.administration.user-validate}")
     ValueResponse<UserResponse> validate(@RequestBody @Validated UserValidateRequest request);

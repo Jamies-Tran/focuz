@@ -11,6 +11,7 @@ import java.util.Optional;
 
 public interface ScopeRepository {
     List<Scope> saveAll(List<Scope> scopes);
+    List<Long> findAllScopeIdByScopeCodeIn(List<String> scopeCodes);
     Page<Scope> findAll(ScopeCriteria criteria, PageRequest pageRequest);
     Optional<Scope> findByScopeCode(String scopeCode);
     Optional<Scope> updateByScopeCode(String scopeCode, Scope scope);

@@ -16,4 +16,5 @@ public interface ClientService {
     Client activeByCode(String clientCode);
     Client inactiveByCode(String clientCode);
     void deleteListByCodeIn(List<String> clientCodes);
+    void addScopeList(Long clientId, List<String> scopeCodes);
 }

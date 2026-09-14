@@ -32,6 +32,12 @@ public class ScopeUseCase implements ScopeService {
 
     @Override
     @Transactional(readOnly = true)
+    public List<Long> getScopeIdListByScopeCodeIn(List<String> scopeCodes) {
+        return repository.findAllScopeIdByScopeCodeIn(scopeCodes);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
     public Page<Scope> getPage(ScopeCriteria criteria) {
         return repository.findAll(criteria, criteria.pageRequest());
     }

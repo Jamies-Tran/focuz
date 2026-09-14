@@ -2,6 +2,7 @@ package com.focuz.authservice.adapter.controller.client;
 
 import com.focuz.authservice.adapter.api.client.ClientApi;
 import com.focuz.authservice.application.dto.request.client.ClientRequest;
+import com.focuz.authservice.application.dto.request.scope.ScopeRequest;
 import com.focuz.authservice.application.dto.response.client.ClientResponse;
 import com.focuz.authservice.application.mapper.request.client.ClientRequestMapper;
 import com.focuz.authservice.application.mapper.response.client.ClientResponseMapper;
@@ -105,5 +106,11 @@ public class ClientController implements ClientApi {
     public ValueResponse<?> deleteListByCodeIn(ClientRequest.ClientCodeListRequest request) {
         clientService.deleteListByCodeIn(request.clientCodes());
         return ValueResponse.success(request.clientCodes());
+    }
+
+    @Override
+    public ValueResponse<?> addScopeList(Long clientId, ScopeRequest.ScopeCodeListRequest request) {
+        clientService.addScopeList(clientId, request.scopeCodes());
+        return ValueResponse.success(request.scopeCodes());
     }
 }

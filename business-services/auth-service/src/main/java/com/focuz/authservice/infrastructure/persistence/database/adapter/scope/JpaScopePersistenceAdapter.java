@@ -31,6 +31,11 @@ public class JpaScopePersistenceAdapter implements ScopeRepository {
     }
 
     @Override
+    public List<Long> findAllScopeIdByScopeCodeIn(List<String> scopeCodes) {
+        return repository.findAllScopeIdByScopeCodeIn(scopeCodes);
+    }
+
+    @Override
     public Page<Scope> findAll(ScopeCriteria criteria, PageRequest pageRequest) {
         return repository.findAll(criteria, pageRequest)
                 .map(mapper::toDomain);

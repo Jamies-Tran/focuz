@@ -13,7 +13,10 @@ public enum EAppError implements ApplicationErrorCode {
     CLIENT_NOT_FOUND("CLIENT_NOT_FOUND", "Client không tồn tại"),
     SCOPE_NOT_FOUND("SCOPE_NOT_FOUND", "Scope không tồn tại"),
     SCOPE_DUPLICATED_IN_LIST("SCOPE_DUPLICATED_IN_LIST", "Danh sách scopes có sự trùng lặp"),
-    SCOPE_DUPLICATED_IN_DB("SCOPE_DUPLICATED_IN_DB", "Scopes đã tồn tại");
+    SCOPE_DUPLICATED_IN_DB("SCOPE_DUPLICATED_IN_DB", "Scopes đã tồn tại"),
+    APPLICATION_NOT_FOUND("APPLICATION_NOT_FOUND", "Application không tồn tại"),
+    APPLICATION_DUPLICATED_IN_LIST("APPLICATION_DUPLICATED_IN_LIST", "Danh sách Applications có sự trùng lặp"),
+    APPLICATION_DUPLICATED_IN_DB("APPLICATION_DUPLICATED_IN_DB", "Applications đã tồn tại");
 
 
     String code;

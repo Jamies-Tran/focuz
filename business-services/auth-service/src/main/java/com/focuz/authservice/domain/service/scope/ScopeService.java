@@ -9,6 +9,7 @@ import java.util.Optional;
 
 public interface ScopeService {
     List<Scope> createList(List<Scope> scopes);
+    List<Long> getScopeIdListByScopeCodeIn(List<String> scopeCodes);
     Page<Scope>getPage(ScopeCriteria criteria);
     Optional<Scope> getDetail(String scopeCode);
     Scope updateByCode(String scopeCode, Scope scope);

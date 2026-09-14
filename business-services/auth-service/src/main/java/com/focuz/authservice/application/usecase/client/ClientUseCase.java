@@ -6,6 +6,8 @@ import com.focuz.authservice.domain.entity.client.Client;
 import com.focuz.authservice.domain.entity.client.ClientCriteria;
 import com.focuz.authservice.domain.repository.client.ClientRepository;
 import com.focuz.authservice.domain.service.client.ClientService;
+import com.focuz.authservice.domain.service.clientscope.ClientScopeService;
+import com.focuz.authservice.domain.service.scope.ScopeService;
 import com.focuz.corestarter.domain.entity.exception.ApplicationException;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -23,6 +25,8 @@ import java.util.Optional;
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class ClientUseCase implements ClientService {
     ClientRepository repository;
+    ClientScopeService clientScopeService;
+    ScopeService scopeService;
 
     @Override
     @Transactional
@@ -73,5 +77,11 @@ public class ClientUseCase implements ClientService {
     @Transactional
     public void deleteListByCodeIn(List<String> clientCodes) {
         repository.deleteAllByClientCodeIn(clientCodes);
+    }
+
+    @Override
+    @Transactional
+    public void addScopeList(Long clientId, List<String> scopeCodes) {
+        clientScopeService.createList(clientId, scopeService.getScopeIdListByScopeCodeIn(scopeCodes));
     }
 }

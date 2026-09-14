@@ -27,4 +27,10 @@ public interface JpaScopeRepository extends JpaRepository<ScopeEntity, Long> {
                         OR s.statusCode IN :#{#criteria.statusCodes()})
         """)
     Page<ScopeEntity> findAll(ScopeCriteria criteria, Pageable pageable);
+    @Query("""
+        SELECT s.scopeId
+        FROM ScopeEntity s
+        WHERE s.scopeCode IN :scopeCodes
+        """)
+    List<Long> findAllScopeIdByScopeCodeIn(List<String> scopeCodes);
 }

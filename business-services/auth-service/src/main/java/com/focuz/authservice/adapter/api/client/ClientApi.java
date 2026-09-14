@@ -1,6 +1,7 @@
 package com.focuz.authservice.adapter.api.client;
 
 import com.focuz.authservice.application.dto.request.client.ClientRequest;
+import com.focuz.authservice.application.dto.request.scope.ScopeRequest;
 import com.focuz.authservice.application.dto.response.client.ClientResponse;
 import com.focuz.corestarter.domain.entity.template.response.ListResponse;
 import com.focuz.corestarter.domain.entity.template.response.PageResponse;
@@ -45,4 +46,7 @@ public interface ClientApi {
 
     @DeleteMapping
     ValueResponse<?> deleteListByCodeIn(@RequestBody @Validated ClientRequest.ClientCodeListRequest request);
+
+    @PostMapping("/{clientId}/scopes")
+    ValueResponse<?> addScopeList(@PathVariable Long clientId, @RequestBody @Validated ScopeRequest.ScopeCodeListRequest request);
 }
